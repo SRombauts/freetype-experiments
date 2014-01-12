@@ -45,10 +45,22 @@ int main() {
     glViewport(0, 0, width, height);
     std::cout << "fullscreen (" << width << " x " << height << ")\n";
 
+    // Load a font
+    gltext::Font font;
+    font = gltext::Font("data/DroidSans.ttf", 16, 256);
+    font.setDisplaySize(width, height);
+    font.cacheCharacters("1234567890!@#$%^&*()abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./;'[]\\<>?:\"{}|-=_+");
+
     while (!glfwWindowShouldClose(window)) {
         // clear the buffer
-        glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
+        // glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // problem with font transparancy (alpha blending)
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+        
+        // Draw some text with our fonts
+        // glBlendFunc(GL_ONE, GL_SRC_ALPHA); // for transparency
+        font.setPenPosition(16, 16);
+        font.draw("Hello, gltext!");
         
         // Swap back & front buffers
         glfwSwapBuffers(window);
