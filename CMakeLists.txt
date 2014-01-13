@@ -51,6 +51,6 @@ include_directories("${PROJECT_SOURCE_DIR}/gltext")
 ## Linking ##
 
 # link the executable with all required libraries
-target_link_libraries(freetype-experiments freetype gltext glfw ${SYSTEM_LIBRARIES})
+target_link_libraries(freetype-experiments gltext freetype glfw ${SYSTEM_LIBRARIES})
 
 

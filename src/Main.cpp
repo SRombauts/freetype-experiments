@@ -12,6 +12,7 @@
 #include <ft2build.h>
 #include <gltext.hpp>
 #include <stdlib.h>
+#include <stdio.h>
 #include <iostream>
 
 static void error_callback(int error, const char* description) {
