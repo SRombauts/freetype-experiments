@@ -32,7 +32,7 @@ int main() {
     }
 
     // Open a window
-    window = glfwCreateWindow(480, 480, "Simple example", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
     if (!window) {
         glfwTerminate();
         exit(EXIT_FAILURE);
@@ -47,18 +47,20 @@ int main() {
 
     // Load a font
     gltext::Font font;
-    font = gltext::Font("data/DroidSans.ttf", 16, 256);
+    font = gltext::Font("data/DroidSans.ttf", 32, 256);
     font.setDisplaySize(width, height);
-    font.cacheCharacters("1234567890!@#$%^&*()abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./;'[]\\<>?:\"{}|-=_+");
+    font.setPointSize(30);
+    // NOTE: cache is hard to use properly; you need to calculate the right cache size in the above gltext::Font() constructor
+    // font.cacheCharacters("1234567890!@#$%^&*()abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./;'[]\\<>?:\"{}|-=_+");
 
     while (!glfwWindowShouldClose(window)) {
-        // clear the buffer
-        // glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // problem with font transparancy (alpha blending)
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        // clear the buffer with a color
+        glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // show problem with font transparancy (alpha blending)
         glClear(GL_COLOR_BUFFER_BIT);
         
         // Draw some text with our fonts
-        // glBlendFunc(GL_ONE, GL_SRC_ALPHA); // for transparency
+        glEnable(GL_BLEND); // Enable and configure blending for font antialiasing and transparency
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         font.setPenPosition(16, 16);
         font.draw("Hello, gltext!");
         
