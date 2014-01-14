@@ -7,3 +7,6 @@
 [submodule "glfw"]
 	path = glfw
 	url = https://github.com/glfw/glfw.git
+[submodule "gltext2"]
+	path = gltext2
+	url = https://github.com/SRombauts/gltext.git

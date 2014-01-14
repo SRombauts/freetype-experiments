@@ -9,8 +9,11 @@
  */
 
 #include <GLFW/glfw3.h>
-#include <ft2build.h>
+#ifdef TEST_MY_GLTEXT
+#include <gltext/gltext.h>
+#else
 #include <gltext.hpp>
+#endif
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -26,6 +29,7 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 int main() {
+    int result = EXIT_SUCCESS;
     GLFWwindow* window;
     glfwSetErrorCallback(error_callback);
     if (!glfwInit()) {
@@ -46,36 +50,42 @@ int main() {
     glViewport(0, 0, width, height);
     std::cout << "fullscreen (" << width << " x " << height << ")\n";
 
-    // Load a font
-    gltext::Font font;
     try {
-        font = gltext::Font("data/DroidSans.ttf", 32, 512, 512);
+        // Load a TrueType font
+        gltext::Font font("data/DroidSans.ttf", 32, 512, 512);
+#ifndef TEST_MY_GLTEXT
+        // specify the screen size for perfect pixel rendering
         font.setDisplaySize(width, height);
         // NOTE: cache is hard to use properly; you need to calculate the right cache size in the above gltext::Font() constructor
         font.cacheCharacters("1234567890!@#$%^&*()abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./;'[]\\<>?:\"{}|-=_+");
+#endif
+
+        while (!glfwWindowShouldClose(window)) {
+            // clear the buffer with a color
+            glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // show problem with font transparancy (alpha blending)
+            glClear(GL_COLOR_BUFFER_BIT);
+        
+            // Enable and configure blending for font antialiasing and transparency
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+#ifndef TEST_MY_GLTEXT
+            // Draw some text with the loaded font
+            font.setPenPosition(16, 16);
+            font.draw("Hello, gltext!");
+#endif        
+            // Swap back & front buffers
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+        }
+
     } catch (std::exception& e) {
         std::cout << "gltext::Font: exception '" << e.what() << "'\n";
-        exit(EXIT_FAILURE);
+        result = EXIT_FAILURE;
     }
 
-    while (!glfwWindowShouldClose(window)) {
-        // clear the buffer with a color
-        glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // show problem with font transparancy (alpha blending)
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        // Enable and configure blending for font antialiasing and transparency
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        // Draw some text with our font
-        font.setPenPosition(16, 16);
-        font.draw("Hello, gltext!");
-        
-        // Swap back & front buffers
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
     glfwDestroyWindow(window);
     glfwTerminate();
 
-    exit(EXIT_SUCCESS);
+    return result;
 }
