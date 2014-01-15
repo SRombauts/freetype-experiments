@@ -10,7 +10,7 @@
 
 #include <GLFW/glfw3.h>
 #ifdef TEST_MY_GLTEXT
-#include <gltext/gltext.h>
+#include <gltext/Font.h>
 #else
 #include <gltext.hpp>
 #endif
@@ -51,9 +51,13 @@ int main() {
     std::cout << "fullscreen (" << width << " x " << height << ")\n";
 
     try {
+#ifdef TEST_MY_GLTEXT
         // Load a TrueType font
+        gltext::Font font("data/DroidSans.ttf", 32, 81);
+        // TODO font.cache("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.:;!?@#$€%()");
+#else
+        // Load a TrueType font, specifying its point size, and the texture cache size
         gltext::Font font("data/DroidSans.ttf", 32, 512, 512);
-#ifndef TEST_MY_GLTEXT
         // specify the screen size for perfect pixel rendering
         font.setDisplaySize(width, height);
         // NOTE: cache is hard to use properly; you need to calculate the right cache size in the above gltext::Font() constructor
@@ -62,7 +66,8 @@ int main() {
 
         while (!glfwWindowShouldClose(window)) {
             // clear the buffer with a color
-            glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // show problem with font transparancy (alpha blending)
+            glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // black background
+         // glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // can show problem with font transparency (alpha blending)
             glClear(GL_COLOR_BUFFER_BIT);
         
             // Enable and configure blending for font antialiasing and transparency
