@@ -11,6 +11,7 @@
 #include <GLFW/glfw3.h>
 #ifdef TEST_MY_GLTEXT
 #include <gltext/Font.h>
+#include <gltext/Text.h>
 #else
 #include <gltext.hpp>
 #endif
@@ -48,15 +49,16 @@ int main() {
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
-    std::cout << "fullscreen (" << width << " x " << height << ")\n";
+    std::cout << "window (" << width << " x " << height << ")\n";
 
     try {
+        // Load a TrueType font, specifying its point size, and the texture cache size
 #ifdef TEST_MY_GLTEXT
         // Load a TrueType font
         gltext::Font font("data/DroidSans.ttf", 32, 81);
         // TODO font.cache("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.:;!?@#$€%()");
+        gltext::Text text = font.render("a");
 #else
-        // Load a TrueType font, specifying its point size, and the texture cache size
         gltext::Font font("data/DroidSans.ttf", 32, 512, 512);
         // specify the screen size for perfect pixel rendering
         font.setDisplaySize(width, height);
@@ -74,8 +76,10 @@ int main() {
             glEnable(GL_BLEND);
             glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-#ifndef TEST_MY_GLTEXT
             // Draw some text with the loaded font
+#ifdef TEST_MY_GLTEXT
+            text.draw();
+#else
             font.setPenPosition(16, 16);
             font.draw("Hello, gltext!");
 #endif        
