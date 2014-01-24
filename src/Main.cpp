@@ -54,9 +54,10 @@ int main() {
     try {
         // Load a TrueType font, specifying its point size, and the texture cache size
 #ifdef TEST_MY_GLTEXT
-        // Load a TrueType font
-        gltext::Font font("data/DroidSans.ttf", 32, 81);
-        // TODO font.cache("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.:;!?@#$€%()");
+        // Load a TrueType font, specifying its point size, and the characters cache size
+        gltext::Font font("data/DroidSans.ttf", 64, 81);
+        font.cache("a");
+     // font.cache("1234567890!@#$%^&*()abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./;'[]\\<>?:\"{}|-=_+");
         gltext::Text text = font.render("a");
 #else
         gltext::Font font("data/DroidSans.ttf", 32, 512, 512);
@@ -68,16 +69,26 @@ int main() {
 
         while (!glfwWindowShouldClose(window)) {
             // clear the buffer with a color
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // black background
-         // glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // can show problem with font transparency (alpha blending)
+         // glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // black background
+            glClearColor(0.0f, 0.0f, 0.5f, 1.0f); // blue background
+         // glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // white: can show problem with font transparency (alpha blending)
             glClear(GL_COLOR_BUFFER_BIT);
-        
+
+            // Face Culling : We use the OpenGL default Counter Clockwise Winding order (GL_CCW)
+            glEnable(GL_CULL_FACE);
+            glCullFace(GL_BACK);
+            glFrontFace(GL_CCW);
+
             // Enable and configure blending for font antialiasing and transparency
             glEnable(GL_BLEND);
             glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
             // Draw some text with the loaded font
 #ifdef TEST_MY_GLTEXT
+          //font.drawCache(-0.3f, -0.2f, 0.6f, 0.4f);
+            font.drawCache(-100.0f, -100.0f, 200.0f, 200.0f);
+
+            text.setPosition(16, 16, 0);
             text.draw();
 #else
             font.setPenPosition(16, 16);
