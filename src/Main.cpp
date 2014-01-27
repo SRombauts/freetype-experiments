@@ -55,10 +55,12 @@ int main() {
         // Load a TrueType font, specifying its point size, and the texture cache size
 #ifdef TEST_MY_GLTEXT
         // Load a TrueType font, specifying its point size, and the characters cache size
-        gltext::Font font("data/DroidSans.ttf", 64, 81);
-        font.cache("a");
+        gltext::Font font("data/DroidSans.ttf", 60, 81);
+        font.cache("Copyright (c) 2014 Sébastien Rombauts (sebastien.rombauts@gmail.com)");
+        font.cache("Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt");
+        font.cache("or copy at http://opensource.org/licenses/MIT)");
      // font.cache("1234567890!@#$%^&*()abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./;'[]\\<>?:\"{}|-=_+");
-        gltext::Text text = font.render("a");
+     // gltext::Text text = font.render("a");
 #else
         gltext::Font font("data/DroidSans.ttf", 32, 512, 512);
         // specify the screen size for perfect pixel rendering
@@ -70,7 +72,7 @@ int main() {
         while (!glfwWindowShouldClose(window)) {
             // clear the buffer with a color
          // glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // black background
-            glClearColor(0.0f, 0.0f, 0.5f, 1.0f); // blue background
+            glClearColor(0.0f, 0.0f, 0.8f, 1.0f); // blue background
          // glClearColor(1.0f, 0.0f, 1.0f, 1.0f); // white: can show problem with font transparency (alpha blending)
             glClear(GL_COLOR_BUFFER_BIT);
 
@@ -85,11 +87,11 @@ int main() {
 
             // Draw some text with the loaded font
 #ifdef TEST_MY_GLTEXT
-          //font.drawCache(-0.3f, -0.2f, 0.6f, 0.4f);
-            font.drawCache(-100.0f, -100.0f, 200.0f, 200.0f);
+         //font.drawCache(-0.3f, -0.2f, 0.6f, 0.4f);
+            font.drawCache(-200.0f, -200.0f, 400.0f, 400.0f);
 
-            text.setPosition(16, 16, 0);
-            text.draw();
+         // text.setPosition(16, 16, 0);
+         // text.draw();
 #else
             font.setPenPosition(16, 16);
             font.draw("Hello, gltext!");
