@@ -22,7 +22,7 @@ git submodule update
 2. Get the development libraries under Linux :
 
 ```bash
-sudo apt-get install libxrandr-dev libxi-dev
+sudo apt-get install libxrandr-dev libxi-dev libgl1-mesa-dev mesa-common-dev
 ```
 
 ### Building the application
