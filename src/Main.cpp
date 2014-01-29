@@ -87,8 +87,8 @@ int main() {
 
             // Draw some text with the loaded font
 #ifdef TEST_MY_GLTEXT
-         //font.drawCache(-0.3f, -0.2f, 0.6f, 0.4f);
-            font.drawCache(-200.0f, -200.0f, 400.0f, 400.0f);
+         // font.drawCache(-0.3f, -0.2f, 0.6f, 0.4f);
+            font.drawCache(0.0f, 0.0f, 0.5f, 0.5f);
 
          // text.setPosition(16, 16, 0);
          // text.draw();
