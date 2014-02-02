@@ -60,7 +60,8 @@ int main() {
         font.cache("Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt");
         font.cache("or copy at http://opensource.org/licenses/MIT)");
      // font.cache("1234567890!@#$%^&*()abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./;'[]\\<>?:\"{}|-=_+");
-     // gltext::Text text = font.render("a");
+     // font.cache("a");
+        gltext::Text text = font.render("abgVA");
 #else
         gltext::Font font("data/DroidSans.ttf", 32, 512, 512);
         // specify the screen size for perfect pixel rendering
@@ -87,7 +88,6 @@ int main() {
 
             // Draw some text with the loaded font
 #ifdef TEST_MY_GLTEXT
-         // font.drawCache(-0.3f, -0.2f, 0.6f, 0.4f);
             font.drawCache(0.0f, 0.0f, 0.5f, 0.5f);
 
          // text.setPosition(16, 16, 0);
