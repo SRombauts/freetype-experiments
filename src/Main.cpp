@@ -55,13 +55,17 @@ int main() {
         // Load a TrueType font, specifying its point size, and the texture cache size
 #ifdef TEST_MY_GLTEXT
         // Load a TrueType font, specifying its point size, and the characters cache size
-        gltext::Font font("data/DroidSans.ttf", 60, 81);
-        font.cache("Copyright (c) 2014 Sébastien Rombauts (sebastien.rombauts@gmail.com)");
-        font.cache("Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt");
-        font.cache("or copy at http://opensource.org/licenses/MIT)");
-     // font.cache("1234567890!@#$%^&*()abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,./;'[]\\<>?:\"{}|-=_+");
-     // font.cache("a");
-        gltext::Text text = font.render("abgVA");
+        gltext::Font font("data/DroidSans.ttf", 40, 81);
+        // Testing optimizing cache by rendering small characters before bigger ones
+        font.cache(",._'^\"-+=*<>: ");
+        font.cache("acenmorsuvwxz");
+        font.cache("lbdfitghkpqy");
+        font.cache("éèêàîïü;");
+        font.cache("0123456789");
+        font.cache("ABCDEFGHIKLMNOPRSTUVWXYZ");
+        font.cache("!?/\\@#%$&€()[]{}");
+        font.cache("jJQ|");
+        gltext::Text text = font.render("Sébastien Rombauts");
 #else
         gltext::Font font("data/DroidSans.ttf", 32, 512, 512);
         // specify the screen size for perfect pixel rendering
@@ -88,10 +92,10 @@ int main() {
 
             // Draw some text with the loaded font
 #ifdef TEST_MY_GLTEXT
-            font.drawCache(0.0f, 0.0f, 0.5f, 0.5f);
+            font.drawCache(0.0f, 0.0f, 256.0f/width, 256.0f/height);
 
          // text.setPosition(16, 16, 0);
-         // text.draw();
+            text.draw();
 #else
             font.setPenPosition(16, 16);
             font.draw("Hello, gltext!");
