@@ -65,7 +65,7 @@ int main() {
         font.cache("ABCDEFGHIKLMNOPRSTUVWXYZ");
         font.cache("!?/\\@#%$&€()[]{}");
         font.cache("jJQ|");
-        gltext::Text text = font.render("Sébastien Rombauts");
+        gltext::Text text = font.assemble("Sébastien Rombauts");
 #else
         gltext::Font font("data/DroidSans.ttf", 32, 512, 512);
         // specify the screen size for perfect pixel rendering
